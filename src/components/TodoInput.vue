@@ -1,8 +1,8 @@
 <template>
 	<div>
-		<label for="todo-input"></label>
+		<label for="todo-input">오늘 할 일 : </label>
 		<input id="todo-input" type="text" :value="item" @input="handleInput" />
-		<button v-on:click="addTodo" type="button">add</button>
+		<button @click="addTodo" type="button">add</button>
 	</div>
 </template>
 
@@ -16,7 +16,7 @@ export default Vue.extend({
 			this.$emit('input', e.target.value);
 		},
 		addTodo() {
-			console.log('add');
+			this.$emit('add');
 		},
 	},
 });
