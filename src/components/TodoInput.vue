@@ -10,10 +10,16 @@
 import Vue from 'vue';
 
 export default Vue.extend({
-	props: ['item'],
+	props: {
+		item: {
+			type: String,
+			required: true,
+		},
+	},
 	methods: {
-		handleInput(e: any) {
-			this.$emit('input', e.target.value);
+		handleInput(e: InputEvent) {
+			const eventTarget = e.target as HTMLInputElement;
+			this.$emit('input', eventTarget.value);
 		},
 		addTodo() {
 			this.$emit('add');
