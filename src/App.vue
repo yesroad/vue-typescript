@@ -7,7 +7,11 @@
 			<TodoInput :item="todoText" @input="updateTodoText" @add="addTodoItem" />
 			<div>
 				<ul>
-					<TodoListItem></TodoListItem>
+					<TodoListItem
+						v-for="(todoItem, index) in todoItems"
+						:key="index"
+						:todoItem="todoItem"
+					></TodoListItem>
 				</ul>
 			</div>
 		</main>
@@ -47,6 +51,9 @@ export default Vue.extend({
 		},
 		addTodoItem() {
 			const value = this.todoText;
+			if (value === '') {
+				return alert('입력 내용이 없습니다.');
+			}
 			this.todoItems.push(value);
 			storage.save(this.todoItems);
 			this.initTodoIext();
