@@ -22,6 +22,10 @@ import TodoListItem from './components/TodoListItem.vue';
 const STORAGE_KEY = 'vue-todo-ts-v1';
 
 const storage = {
+	save(todoItems: string[]) {
+		const parsed = JSON.stringify(todoItems);
+		localStorage.setItem(STORAGE_KEY, parsed);
+	},
 	fetch() {
 		const todoItems = localStorage.getItem(STORAGE_KEY) || '[]';
 		const result = JSON.parse(todoItems);
@@ -34,7 +38,7 @@ export default Vue.extend({
 	data() {
 		return {
 			todoText: '',
-			todoItems: [],
+			todoItems: [] as string[],
 		};
 	},
 	methods: {
@@ -43,7 +47,8 @@ export default Vue.extend({
 		},
 		addTodoItem() {
 			const value = this.todoText;
-			localStorage.setItem(value, value);
+			this.todoItems.push(value);
+			storage.save(this.todoItems);
 			this.initTodoIext();
 		},
 		initTodoIext() {
