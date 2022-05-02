@@ -1,19 +1,40 @@
 <template>
 	<div>
-		<h1>Vue Todo with Typescript</h1>
-		<TodoInput :item="todoText" @input="updateTodoText" @add="addTodoItem" />
+		<header>
+			<h1>Vue Todo with Typescript</h1>
+		</header>
+		<main>
+			<TodoInput :item="todoText" @input="updateTodoText" @add="addTodoItem" />
+			<div>
+				<ul>
+					<TodoListItem></TodoListItem>
+				</ul>
+			</div>
+		</main>
 	</div>
 </template>
 
 <script lang="ts">
 import Vue from 'vue';
 import TodoInput from './components/TodoInput.vue';
+import TodoListItem from './components/TodoListItem.vue';
+
+const STORAGE_KEY = 'vue-todo-ts-v1';
+
+const storage = {
+	fetch() {
+		const todoItems = localStorage.getItem(STORAGE_KEY) || '[]';
+		const result = JSON.parse(todoItems);
+		return result;
+	},
+};
 
 export default Vue.extend({
-	components: { TodoInput },
+	components: { TodoInput, TodoListItem },
 	data() {
 		return {
 			todoText: '',
+			todoItems: [],
 		};
 	},
 	methods: {
@@ -28,6 +49,12 @@ export default Vue.extend({
 		initTodoIext() {
 			this.todoText = '';
 		},
+		fetchTodoItems() {
+			this.todoItems = storage.fetch();
+		},
+	},
+	created() {
+		this.fetchTodoItems();
 	},
 });
 </script>
